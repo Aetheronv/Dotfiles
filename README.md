@@ -16,5 +16,5 @@ Minha configuração do Void Linux.
 **Pacotes necessários:**
 
 ```bash
-hyprland hyprpaper xdg-desktop-portal-hyprland eww rofi socat playerctl pipewire 
+hyprland hyprpaper xdg-desktop-portal-hyprland eww rofi socat playerctl pipewire python3 python3-dbus python3-gobject python3-requests
 ```
