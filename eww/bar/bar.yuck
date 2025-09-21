@@ -1,0 +1,143 @@
+;; ────────────── BAR WIDGET ──────────────
+(defwidget bar-widget []
+  (box :class "bar-widget" :orientation "v"
+    (box-start)
+    (box-center)
+    (box-end)
+  )
+)
+
+;; ────────────── BOX START ──────────────
+(defwidget box-start []
+  (box :valign "start" :halign "center" :space-evenly false :spacing 10 :orientation "v"
+    (launcher)
+    (workspaces)
+    (controller)
+  )
+)
+
+;; ────────────── BOX CENTER ──────────────
+(defwidget box-center []
+  (box :valign "center" :space-evenly false :spacing 10 :orientation "v"
+    (central_modules)
+  )
+)
+
+(defwidget central_modules []
+  (box :orientation "v" :class "central_modules" :space-evenly false
+    (apps)
+  )
+)
+
+;; ────────────── BOX END ──────────────
+(defwidget box-end []
+  (box :valign "end" :space-evenly false
+    (box :space-evenly false :spacing 10 :orientation "v"
+      (volume)
+      (central)
+      (clock)
+    )
+  )
+)
+
+;; ────────────── MODULES ──────────────
+(defwidget controller []
+  (circular-progress :value {controller_battery} :thickness 12 :tooltip "${controller_battery}%")
+)
+
+(defwidget launcher []
+  (eventbox :class "launcher" :cursor "pointer" :halign "baseline"
+    :onclick "rofi -no-lazy-grab -show drun -theme ~/.config/hypr/rofi/rofi.rasi &"
+    (button :tooltip "Launcher" "󰙀")
+  )
+)
+
+(defwidget workspaces []
+  (box :class "workspaces" :halign "start" :orientation "v"
+    (for workspace in workspaces
+      (eventbox :onscroll "echo {} | sed -e 's/up/-1/g' -e 's/down/+1/g' | xargs hyprctl dispatch workspace" 
+        :cursor "pointer"
+        (button :class {workspace.id == current_workspace ? "active" : "inactive"}
+                :onclick "hyprctl dispatch workspace ${workspace.id}"
+                {workspace.icon})
+      )
+    )
+  )
+)
+
+(defvar workspaces '[
+  {"id": 1, "icon": "󰬺"},
+  {"id": 2, "icon": "󰬻"},
+  {"id": 3, "icon": "󰬼"},
+  {"id": 4, "icon": "󰬽"},
+  {"id": 5, "icon": "󰬾"}
+]')
+
+(defpoll current_workspace :interval "40ms"
+  "hyprctl activeworkspace | grep -oP '(?<=workspace ID )\\d+'"
+)
+
+(defpoll active_class :interval "0s" "/home/aetheron/.config/eww/scripts/apps.sh")
+
+(defwidget apps []
+  (box :class "apps" :orientation "v"
+    (label :text active_class)
+  )
+)
+
+(defwidget volume []
+  (eventbox :onhover "eww update volume_rev=true" :onhoverlost "eww update volume_rev=false"
+    (box :orientation "v" :class "volume" :space-evenly false
+      (revealer :class "volume-bar" :transition "slideup" :reveal volume_rev
+        (eventbox :cursor "pointer" :halign "center"
+          (scale :orientation "v"
+                 :tooltip {volume == "muted" || volume == "" ? "Muted" : "   ${volume}%"}
+                 :value {volume == "muted" || volume == "" ? "0" : volume}
+                 :min 0
+                 :max 101
+                 :onchange "pamixer -u && pamixer --set-volume {}"
+                 :flipped true
+          )
+        )
+      )
+      (eventbox :cursor "pointer"
+        :onscroll "echo {} | sed -e 's/up/--up/g' -e 's/down/--down/g' | xargs volume"
+        (button :class "volume-icon"
+                :style {volume == 0 || volume == "muted" || volume == ""}
+                :tooltip {volume == "muted" || volume == "" ? "Muted" : "          ${volume}%"}
+                :onclick "pamixer -t"
+          {
+            volume == 0 || volume == "muted" || volume == "" ? "󰝟" :
+            volume < 30 ? "󰋋" :
+            volume < 55 ? "󰋋" :
+            "󰋋"
+          }
+        )
+      )
+    )
+  )
+)
+
+(defwidget central []
+  (eventbox :class "central" :cursor "pointer" :halign "center" :onclick "eww open central" "")
+)
+
+(defwidget clock []
+  (box :class "clock" :orientation "v" :halign "baseline" :space-evenly false :spacing -5
+    (box
+      (label :text "${hour}")
+    )
+    (label :class "asas" :text "-")
+    (label :class "clock minute" :text minute)
+  )
+)
+
+;; ────────────── WINDOW ──────────────
+(defwindow bar
+  :monitor 0
+  :exclusive true
+  :geometry (geometry :x "0%" :y "0%" :width "0%" :height "95%" :anchor "left center")
+  :reserve (struts :side "top" :distance "4%")
+  (bar-widget)
+)
+

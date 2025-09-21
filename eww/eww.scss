@@ -1,0 +1,30 @@
+//* Variables *//
+
+* {
+  all: unset;
+  transition: 50ms;
+}
+
+// importa o tema ativo dinamicamente
+@import "themes/current";
+
+// seus mixins continuam iguais
+@mixin window {
+  background-color: $bg;
+  box-shadow: 0 0 0.3rem 0.3rem $shadow;
+  margin: 0 1rem 0 0;
+}
+
+@mixin window1 {
+  background-color: $bg;
+  box-shadow: 0 0 0.3rem 0.3rem $shadow;
+  margin: 1rem ;
+}
+
+
+
+
+@import "bar/bar.scss";
+@import "central/central.scss";
+@import "power/power.scss"
+

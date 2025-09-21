@@ -1,0 +1,204 @@
+(defvar power_icon "󰈆")
+(defvar more_reveal false)
+(defvar currentTheme "dark")
+
+;; ────────────── CENTRAL-WIDGET ──────────────
+
+(defwidget central-widget []
+	(eventbox :onhoverlost "eww close central & eww update more_reveal=false"
+		(box :orientation "v" :class "central-widget" :space-evenly false :spacing 10	
+			(profile)
+			(music)	
+			(sysinfo)
+			(weather))))
+
+;;  ────────────── PROFILE  ────────────── > 
+;; Mostra as informações do usuario, script é simples  está em /scripts/sysinfo.sh ;; 
+
+(defwidget profile []
+	(box :space-evenly false :spacing 30
+		(box :class "profile" :space-evenly false :halign "start" :style "background-image: url('/home/aetheron/.config/eww/guts.png')")
+			(box :orientation "v" :halign "start" :valign "center" :spacing 2.5
+				(label :text {name} :class "user" :halign "start")
+				(label :text {os} :class "uptime" :halign "start")
+				(label :text {uptime} :class "uptime" :halign "start"))
+			(box :orientation "v"
+			(power)
+			(theme-switcher))))
+
+
+(defwidget music []
+	(box :class "music"
+		(box :class "player-art" :style "background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)) url('${music-art}')" :orientation "v"
+			(box :orientation "v" :spacing 15
+				(label :halign "start" :class "player-title" :text music-title :limit-width 25)
+				(label :halign "start" :class "player-artist" :text music-artist :limit-width 25 ))
+			(box :class "player-position" :valign "end"
+				(label :halign "start" :class "player-time" :text "${music-position} / ${music-length}")	
+			(box :class "player-controls" :space-evenly false :halign "end" :spacing 10
+			    (eventbox :cursor "pointer"
+				    (button :class "player-previous" :onclick "scripts/mediacontrol --previous" ""))
+				(eventbox :cursor "pointer"
+					(button :class "player-toggle" :onclick "scripts/mediacontrol --toggle" music-toggle))
+				(eventbox :cursor "pointer"
+					(button :class "player-next" :onclick "scripts/mediacontrol --next" "")))))))
+
+	
+							
+
+;;  ────────────── THEME-SWITCHER  ────────────── ;;
+;; Por algum motivo ele volta ao estado inicial após a troca do tema .
+
+(defwidget theme-switcher []
+  (box :space-evenly false :halign "end"
+    :class "theme-toggle"
+    (eventbox
+      :cursor "pointer"
+      :onclick "eww update currentTheme=${currentTheme == 'dark' ? 'light' : 'dark'} &  ~/.config/eww/scripts/theme.sh"
+      (label :text "${currentTheme == 'dark' ? ' ' : '󰖨 '}")
+    )
+  )
+)
+
+
+;; ────────────── POWER ──────────────;;
+(defwidget power []
+	(eventbox :class "central" :cursor "pointer" :halign "end" :onclick "eww close central && eww open power"
+		"󰈆 "))
+
+(defwidget sysinfo []
+	(box :spacing 10 :space-evenly true
+		(mem)
+		(pkgs)
+	)
+)
+
+(defwidget memory []
+    (box :orientation "v" :space-evenly false  
+		(circular-progress :value {EWW_RAM.used_mem_perc} :class "memory"
+                               :thickness 2
+                               :class "chart"
+							   (label :text " "))))
+
+(defwidget mem []
+    (box :orientation "v" :space-evenly false
+      (label :class "memory" :text `󰏔   ${mem}`)))
+
+(defwidget cpu []
+    (box :orientation "v" :space-evenly false
+      (label :class "memory" :text `󰏔   ${cpu}`)))
+
+
+(defwidget pkgs []
+    (box :orientation "v" :space-evenly false
+      (label :class "memory" :text `󰏔   ${pkgs}`)))
+
+(defwidget weather []
+  (box :orientation "v" :space-evenly false :class "weather"
+    (label :class "weather-connection-error" :text "Carregando" :visible {weather != "null" ? false : true})
+      (box :orientation "h" :space-evenly false
+        (label :hexpand true :class "weather-current-icon" :halign "start" :valign "start" :text {weather.current.icon})
+          (box :hexpand true :orientation "v" :space-evenly false :halign "end" :valign "start"
+            (label :halign "end" :class "weather-location" :text {weather.location})
+            (label :limit-width 20 :halign "end" :class "weather-current-text" :text {weather.current.text})))
+
+        (box :orientation "h" :space-evenly false :class "weather-info"
+            (box :orientation "v" :space-evenly false :halign "start" :hexpand false
+                (label :halign "start" :class "weather-current-temp" :text {weather.current.temp})
+                (box :orientation "h" :space-evenly false
+                    (label :class "weather-current-maxtemp" :text {weather.maxtemp})
+                    (label :class "weather-current-mintemp" :text {weather.mintemp})
+                )
+            )
+            (box :orientation "h" :space-evenly false :halign "end" :hexpand true
+                (for hour in {weather.hourly}
+                    (box :orientation "v" :space-evenly false :class "weather-hour"
+                        (label :class "weather-hour-temp" :text {hour.temp})
+                        (label :class "weather-hour-icon" :text {hour.icon})
+                        (label :class "weather-hour-time" :text {hour.time})
+                    )
+                )
+            )
+        )
+    )
+)
+
+
+(defwidget power-widget []
+	(eventbox :onhoverlost "eww close power"
+		(box :class "power-widget" :space-evenly false :orientation "v" :spacing 10
+			(eventbox :cursor "pointer" :onclick "" "󰐥")
+			(eventbox :cursor "pointer" :onclick "" "󰜉")
+			(eventbox :cursor "pointer" :onclick "" "")
+		)
+	)
+)
+
+(defwindow power
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "0%"
+                      :height "0%"
+                      :anchor "left center")
+  :reserve (struts :side "top" :distance "4%")
+  (power-widget))
+
+
+
+(defwindow central
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "2.5%"
+					  :width "0%"
+					  :height "0%"
+                      :anchor "left bottom")
+  :reserve (struts :side "top" :distance "0%")
+  (central-widget))
+
+
+
+;; ──────────────────────────────────────────;;
+;; Daqui pra baixo são modulos de teste, ainda falta muita coisa.
+(defvar teste_rev false)
+
+(defwidget testing []
+	(eventbox :cursor "pointer" :onhoverlost "eww update teste_rev=false"
+		(box :orientation "v" :space-evenly false :valign "center"
+			(button :onclick "eww update teste_rev=true" "󰈆 ")
+				(revealer :transition "slideright" :reveal teste_rev
+					(box :orientation "h" :spacing 10
+						(button " ")
+						(button " ")
+						(button " ")
+				)
+			)
+		)
+	)
+)
+
+(defwidget more []
+	(eventbox :cursor "pointer" :onrightclick "eww update more_reveal=false"
+		(box :orientation "v" :space-evenly false :valign "center"
+			(button :onclick "eww update more_reveal=true" "󰈆 ")
+				(revealer :transition "slidedown" :reveal more_reveal
+					(box :orientation "v" :spacing 15
+						(button " ")
+						(button " ")
+						(button " ")
+				)
+			)
+		)
+	)
+)
+
+(defwidget power-toggle []
+  (eventbox :cursor "pointer"
+    (button 
+      :onclick "eww update power_icon=''" ;; troca ícone quando clica
+      (label :text power_icon)
+    )
+  )
+)
+
+

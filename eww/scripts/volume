@@ -1,0 +1,9 @@
+#!/bin/bash
+# Mostrar volume atual
+pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+%' | head -1 | tr -d '%'
+
+# Monitorar mudanças no volume
+pactl subscribe | rg --line-buffered "on sink" | while read -r _; do
+  pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+%' | head -1 | tr -d '%'
+done
+

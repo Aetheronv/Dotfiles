@@ -1,0 +1,20 @@
+;; ────────────── POWER ──────────────;;
+(defwidget power-widget []
+	(eventbox :onhoverlost "eww close power"
+		(box :class "power-widget" :spacing 10 :orientation "v" :halign "end"
+			(box :class "poweroff" 
+				(eventbox :cursor "pointer" :onclick "poweroff" "󰐥 "))
+			(box :class "reboot"
+				(eventbox :cursor "pointer" :onclick "reboot" "󰜉 "))
+			(box :class "block"
+				(eventbox :cursor "pointer" :onclick "pkill hyprland" " ")))))
+
+(defwindow power
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "2.5%"
+                      :width "0%"
+                      :height "2%"
+                      :anchor "left center")
+  :reserve (struts :side "bottom" :distance "0%")
+  (power-widget))

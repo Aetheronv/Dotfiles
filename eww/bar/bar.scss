@@ -1,0 +1,94 @@
+.bar-widget {
+  background-color: $bg;
+  color: $fg-alt;
+  padding: .4rem 0rem;  
+  border-top: .07rem solid $border;
+  border-bottom: .07rem solid $border;
+  border-right: .07rem solid $border;
+  
+}
+
+.launcher {
+  font-size: 1.8rem;
+  text-shadow: 1px 1px 1px $shadow;
+  color: $gray;
+
+  :hover {
+    color: $blue;
+  }
+}
+
+.apps {
+  font-family: JetBrainsMono Nerd Font;
+  text-shadow: 2px 1px 0px $shadow;
+  font-size: .9rem;
+  font-weight: bolder;
+}
+
+.central_modules {
+  font-size: 1.5rem;
+  padding: .4rem .4rem;
+}
+
+.workspaces button {
+  font-size: 1.6rem;
+  padding: 0 0.4rem;
+  opacity: 0.6;
+  transition:
+    margin-top 100ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
+    opacity 100ms ease,
+    color 100ms ease,
+    background-color 150ms ease,
+    border-radius 300ms ease;
+}
+
+.workspaces button.active {
+  background-color: $bg-alt2;
+  color: $black;
+  border-radius: 0.2rem;
+  opacity: 1;
+}
+
+
+.volume {
+  font-size: 1.3rem;
+  text-shadow: 2px 1px 0px $shadow;
+  padding: 0 .2rem 0 0;
+
+  .volume-icon {
+    color: $fg-alt;
+  }
+
+  .volume-bar scale trough {
+    all: unset;
+    background-color: $black;
+    border-radius: .4rem;
+    min-width: .42rem;
+    min-height: 3rem;
+    margin: 0.5rem 0;
+    box-shadow: 0 0 2px 1px rgba(black, 0.3);
+  }
+
+  .volume-bar scale trough highlight {
+    all: unset;
+    background: $blue;
+    border-radius: .1rem;
+  }
+}
+
+.central {
+  font-size: 1.7rem;
+
+  :hover {
+    color: $blue;
+  }
+}
+
+.clock {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-shadow: 2px 1px 0px $shadow;
+  color: $fg-alt2;
+  padding: .4rem .4rem;
+}
+

@@ -1,0 +1,65 @@
+[general]
+
+import = ["/home/aetheron/.config/alacritty/themes/current.toml"]
+[window]
+dynamic_padding = false
+title = "Alacritty"
+startup_mode = "Windowed"
+
+[cursor]
+style = "Beam"
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.padding]
+x = 30
+y = 20
+
+[font]
+# Apenas tamanho e offset ficam aqui
+size = 10.5
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Italic"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font"
+style = "Bold Italic"
+
+[font.offset]
+x = 0
+y = 1
+
+[scrolling]
+history = 5000
+multiplier = 3
+
+[terminal]
+shell = "/bin/zsh"
+
+# ==========================
+# Atalhos de teclado (opcional)
+# ==========================
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+# ... (adicione os outros atalhos que você já tinha)
+
