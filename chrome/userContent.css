@@ -1,0 +1,63 @@
+/* 
+┌─┐┬┌┬┐┌─┐┬  ┌─┐
+└─┐││││├─┘│  ├┤ 
+└─┘┴┴ ┴┴  ┴─┘└─┘
+┌─┐┌─┐─┐ ┬      
+├┤ │ │┌┴┬┘      
+└  └─┘┴ └─
+
+by Miguel Avila
+*/
+
+
+:root {
+ scrollbar-width: none !important;
+}
+
+@-moz-document url(about:privatebrowsing) {
+  :root {
+    scrollbar-width: none !important;
+  }
+}
+
+@-moz-document url-prefix(about:home), url-prefix(about:newtab) { 
+  .click-target-container *, 
+  .top-sites-list * { 
+    color: #fff !important ; 
+    text-shadow: 2px 2px 2px #000 !important ; 
+  }
+}
+
+@-moz-document url("about:home"), url("about:newtab") {
+  .logo { 
+    display: none !important; 
+  }
+}
+
+@-moz-document url(about:home), url(about:newtab) {
+  html, body {
+    background: rgba(0,0,0,0) !important; /* fundo totalmente transparente */
+  }
+
+  /* Esconde a imagem de fundo padrão */
+  body::before {
+    background: none !important;
+  }
+
+  /* Remove blocos que adicionam cor */
+  .outer-wrapper, 
+  .search-wrapper,
+  .top-sites-list,
+  .collapsible-section,
+  .customize-menu {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
+@-moz-document url("about:home"), url("about:newtab") {
+  .search-wrapper .search-handoff-button {
+    background: none !important;
+
+  }
+}

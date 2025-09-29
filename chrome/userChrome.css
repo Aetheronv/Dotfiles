@@ -1,0 +1,217 @@
+/* 
+┌─┐┬┌┬┐┌─┐┬  ┌─┐
+└─┐││││├─┘│  ├┤ 
+└─┘┴┴ ┴┴  ┴─┘└─┘
+┌─┐┌─┐─┐ ┬      
+├┤ │ │┌┴┬┘      
+└  └─┘┴ └─
+
+by Miguel Avila (modificado com blur 10px e fundo adaptável)
+*/
+
+/* ---------- VARIÁVEIS ---------- */
+:root {
+  --sfwindow-dark: rgba(0,0,0,0.15);
+  --sfwindow-light: rgba(255,255,255,0.20);
+  --sfsecondary: rgba(0, 0, 0, 0.5);
+  --bookmark-block-padding: 4px 6px !important;
+
+  --arrowpanel-menuitem-padding: .5rem !important;
+  --tab-block-margin: 0px !important;
+  --tab-border-radius: .4rem !important;
+  --arrowpanel-border-radius: .4rem !important;
+  --arrowpanel-padding-inline: 2rem !important;
+
+  --arrowpanel-color: #fafafa !important;
+  --arrowpanel-hover-background-color: #333 !important;
+  --arrowpanel-disabled-hover-background-color: #333 !important;
+  --arrowpanel-disabled-color: #555 !important;
+  --arrowpanel-border-color: var(--sfsecondary) !important;
+  --arrowpanel-icon-opacity: 0.7 !important;
+}
+
+/* ---------- BACKGROUND GLOBAL ---------- */
+:root, #browser, #tabbrowser-tabpanels,
+#navigator-toolbox,
+#urlbar,
+#urlbar-background,
+#urlbar-input-container,
+#urlbar-container,
+.urlbarView,
+#PopupSearchAutoComplete .autocomplete-richlistbox,
+#PanelUI-popup,
+.panel-subview-body,
+.panel-subview-footer,
+.panel-subview-header,
+#sidebar-box,
+.sidebar-placesTree,
+menupopup,
+popup,
+#context-navigation,
+#ContentSelectDropdown,
+#ContentSelectDropdown > menupopup {
+  backdrop-filter: blur(10px) !important;
+  -moz-backdrop-filter: blur(10px) !important;
+  background-color: var(--sfwindow-dark) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ---------- LIGHT THEME ---------- */
+@media (prefers-color-scheme: light) {
+  :root, #browser, #tabbrowser-tabpanels,
+  #navigator-toolbox,
+  #urlbar,
+  #urlbar-background,
+  #urlbar-input-container,
+  #urlbar-container,
+  .urlbarView,
+  #PopupSearchAutoComplete .autocomplete-richlistbox,
+  #PanelUI-popup,
+  .panel-subview-body,
+  .panel-subview-footer,
+  .panel-subview-header,
+  #sidebar-box,
+  .sidebar-placesTree,
+  menupopup,
+  popup,
+  #context-navigation,
+  #ContentSelectDropdown,
+  #ContentSelectDropdown > menupopup {
+    background-color: var(--sfwindow-light) !important;
+  }
+}
+
+/* ---------- URL BAR ---------- */
+#urlbar,
+#urlbar-background,
+#urlbar-input-container,
+#urlbar-container,
+.urlbarView,
+#PopupSearchAutoComplete .autocomplete-richlistbox {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.urlbarView-url,
+#urlbar-input {
+  color: var(--toolbar-color, #dedede) !important;
+}
+
+/* ---------- PANEL UI ---------- */
+#PanelUI-popup,
+.panel-subview-body,
+.panel-subview-footer,
+.panel-subview-header,
+menupopup {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4) !important;
+}
+
+#PanelUI-popup .panel-subview-body toolbarbutton,
+#PanelUI-popup .panel-subview-body menuitem {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+#PanelUI-popup .panel-subview-body toolbarbutton:hover,
+#PanelUI-popup .panel-subview-body menuitem:hover {
+  background: rgba(255,255,255,0.1) !important;
+  border-radius: 6px !important;
+}
+
+/* ---------- MENUS DE CONTEXTO ---------- */
+menupopup,
+popup,
+#context-navigation,
+#ContentSelectDropdown,
+#ContentSelectDropdown > menupopup {
+  padding: 4px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4) !important;
+}
+
+menupopup menuitem,
+menupopup menu {
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+}
+
+menupopup menuitem:hover,
+menupopup menu:hover {
+  background: rgba(255,255,255,0.1) !important;
+}
+
+/* ---------- TABS ---------- */
+/* Aba ativa dark/light */
+#tabbrowser-tabs:not([movingtab])
+  > #tabbrowser-arrowscrollbox
+  > .tabbrowser-tab
+  > .tab-stack
+  > .tab-background[selected='true'] {
+  backdrop-filter: blur(10px) !important;
+  -moz-backdrop-filter: blur(10px) !important;
+}
+
+/* Aba ativa dark */
+@media (prefers-color-scheme: dark) {
+  .tab-background[selected='true'] {
+    background-color: rgba(0,0,0,0.8) !important;
+  }
+}
+
+/* Aba ativa light */
+@media (prefers-color-scheme: light) {
+  .tab-background[selected='true'] {
+    background-color: rgba(255,255,255,0.4) !important;
+  }
+}
+
+/* Aba inativa */
+.tab-background {
+  border-right: 0px solid var(--sfwindow-dark) !important;
+  margin-left: -4px !important;
+}
+
+.tabbrowser-tab:is([visuallyselected='true'], [multiselected])
+  > .tab-stack
+  > .tab-background {
+  box-shadow: none !important;
+}
+
+/* ---------- SIDEBAR ---------- */
+#sidebar-box,
+.sidebar-placesTree {
+  backdrop-filter: blur(10px) !important;
+  -moz-backdrop-filter: blur(10px) !important;
+}
+
+/* ---------- TOOLBAR ---------- */
+#tracking-protection-icon-container,
+#urlbar-zoom-button,
+#star-button-box,
+#pageActionButton,
+#pageActionSeparator,
+tabs-newtab-button,
+back-button,
+PanelUI-button,
+forward-button,
+.tab-secondary-label {
+  display: none !important;
+}
+
+/* ---------- CONTEXT MENU DESABILITADO ---------- */
+#context_bookmarkTab,
+#context_moveTabOptions,
+#context_sendTabToDevice,
+#context_reopenInContainer,
+#context_selectAllTabs,
+#context_closeTabOptions {
+  display: none !important;
+}
+
+/* ---------- BOOKMARKS BAR ---------- */
+#PlacesToolbarItems {
+  display: flex !important;
+  justify-content: center !important;
+}
+
